@@ -22,23 +22,17 @@ export async function GET(req) {
       );
     }
 
-    const state = await job.getState();
-    const progress = job.progress;
-    const result = job.returnvalue;
-    const failedReason = job.failedReason;
+    const logs = await job.getLog();
 
     return NextResponse.json({
       jobId,
-      state,
-      progress,
-      result,
-      failedReason,
+      logs: logs ? logs.split('\n').filter(Boolean) : [],
     });
   } catch (error) {
-    console.error("Status check error:", error);
+    console.error("Logs fetch error:", error);
     return NextResponse.json(
-      { error: "Failed to check status" },
+      { error: "Failed to fetch logs" },
       { status: 500 }
-    );
+      );
   }
 }

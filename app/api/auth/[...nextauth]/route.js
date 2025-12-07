@@ -23,6 +23,14 @@ export const authOptions = {
       session.accessToken = token.accessToken;
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // Redirect to repos page after sign in
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      // Default redirect to repos page
+      return `${baseUrl}/repos`;
+    },
   },
 };
 
