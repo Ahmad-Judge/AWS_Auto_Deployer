@@ -29,12 +29,12 @@ export default function HomePage() {
           Stay on top of teamwork and deadlines without distractions. Log in and start managing your day—all from one place.
         </p>
         {session ? (
-          <a href="/dashboard" className="inline-block bg-purple-600 text-white rounded-lg px-6 py-3 font-medium hover:bg-purple-700 transition">
+          <a href="/dashboard" className="inline-block bg-black text-white rounded-lg px-6 py-3 font-medium hover:bg-black-slate-700 transition">
             Go to your dashboard
           </a>
         ) : (
           <button onClick={() => signIn("github")}
-            className="inline-block bg-purple-600 text-white rounded-lg px-6 py-3 font-medium hover:bg-purple-700 transition">
+            className="inline-block bg-black text-white rounded-lg px-6 py-3 font-medium hover:bg-purple-700 transition">
             Sign in with GitHub
           </button>
         )}

@@ -58,6 +58,15 @@ export default function ReposPage() {
       <header className="border-b border-slate-200 bg-white sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="text-slate-600 hover:text-slate-900 transition"
+              title="Back to Dashboard"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+            </button>
             <h1 className="text-xl font-semibold text-slate-900">Your Repositories</h1>
             <span className="text-sm text-slate-600 bg-slate-100 px-2 py-1 rounded">
               {repos.length}

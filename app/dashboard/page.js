@@ -1,9 +1,11 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -50,11 +52,17 @@ export default function HomePage() {
           <div className="flex flex-wrap gap-4 justify-center">
             {session ? (
               <>
-                <button className="px-8 py-4 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition shadow-sm">
-                  Go to Dashboard
+                <button 
+                  onClick={() => router.push("/repos")}
+                  className="px-8 py-4 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 transition shadow-sm"
+                >
+                  View Repositories
                 </button>
-                <button className="px-8 py-4 rounded-lg bg-white text-slate-900 font-semibold hover:bg-slate-50 transition border border-slate-200">
-                  View Projects
+                <button 
+                  onClick={() => router.push("/repos")}
+                  className="px-8 py-4 rounded-lg bg-white text-slate-900 font-semibold hover:bg-slate-50 transition border border-slate-200"
+                >
+                  Start Deploying
                 </button>
               </>
             ) : (

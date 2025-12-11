@@ -1,9 +1,11 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function AuthButton() {
   const { data: session } = useSession();
+  const router = useRouter();
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
@@ -13,6 +15,12 @@ export default function AuthButton() {
             <p className="text-gray-700 text-center">
               Signed in as <span className="font-semibold">{session.user.email}</span>
             </p>
+            <button
+              onClick={() => router.push('/repos')}
+              className="px-4 py-2 w-full rounded-lg bg-slate-900 text-white font-medium hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-slate-500"
+            >
+              View Repositories
+            </button>
             <button
               onClick={() => signOut()}
               className="px-4 py-2 w-full rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500"

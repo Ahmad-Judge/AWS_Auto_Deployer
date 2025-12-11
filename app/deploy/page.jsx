@@ -343,7 +343,7 @@ function DeployContent() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h3 className={`text-3xl font-bold ${THEME.TEXT_PRIMARY} mb-2`}>✅ Deployment Successful!</h3>
+              <h3 className={`text-3xl font-bold ${THEME.TEXT_PRIMARY} mb-2`}> Deployment Successful!</h3>
               <p className={THEME.SUCCESS.TEXT}>Your app is now live on the global CloudFront CDN.</p>
             </div>
 
