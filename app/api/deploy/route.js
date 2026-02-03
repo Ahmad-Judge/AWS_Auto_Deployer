@@ -31,7 +31,7 @@ async function ensureTempDirectory() {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { repoUrl, repoName, branch = "main", buildPath = "", useQueue = true } = body;
+    const { repoUrl, repoName, branch = "main", buildPath = "", backendUrl = "", envVariables = "", useQueue = true } = body;
 
     // Validate required fields
     if (!repoUrl) {
@@ -67,6 +67,8 @@ export async function POST(req) {
           repoName: repoName || "repository",
           branch,
           buildPath,
+          backendUrl,
+          envVariables,
           deploymentId,
         }, {
           attempts: 3, // Retry failed jobs 3 times

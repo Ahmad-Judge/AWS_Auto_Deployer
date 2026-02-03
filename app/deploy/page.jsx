@@ -48,6 +48,8 @@ function DeployContent() {
   const [deploymentResult, setDeploymentResult] = useState(null);
   const [error, setError] = useState(null);
   const [buildPath, setBuildPath] = useState("");
+  const [backendUrl, setBackendUrl] = useState("");
+  const [envVariables, setEnvVariables] = useState("");
   const [jobId, setJobId] = useState(null);
   const [logs, setLogs] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -120,6 +122,8 @@ function DeployContent() {
           repoName: repoName || "repository",
           branch: "main",
           buildPath: buildPath.trim() || "",
+          backendUrl: backendUrl.trim() || "",
+          envVariables: envVariables.trim() || "",
         }),
       });
 
@@ -229,6 +233,57 @@ function DeployContent() {
             <p className={`${THEME.TEXT_SECONDARY} text-sm mt-2`}>
               Leave empty if `package.json` is in the repository root. Enter the subdirectory path if your project is in a subfolder.
             </p>
+          </div>
+        )}
+
+        {/* Environment Variables Configuration (Pre-Deployment) */}
+        {!deploying && !deploymentResult && (
+          <div className={`${THEME.CARD_BG} border ${THEME.BORDER_COLOR} rounded-xl p-6 mb-8 shadow-md`}>
+            <label className={`block ${THEME.TEXT_PRIMARY} font-semibold mb-3`}>
+              Environment Variables (Optional)
+              <span className={`text-sm font-normal ml-2 ${THEME.TEXT_SECONDARY}`}>
+                Configure your build environment
+              </span>
+            </label>
+            
+            {/* Quick Backend URL Input */}
+            <div className="mb-4">
+              <label className={`block ${THEME.TEXT_SECONDARY} text-sm mb-2`}>
+                Quick Setup - Backend API URL
+              </label>
+              <input
+                type="text"
+                value={backendUrl}
+                onChange={(e) => setBackendUrl(e.target.value)}
+                placeholder="e.g., https://api.example.com"
+                className={`w-full px-4 py-2 ${THEME.ACCENT_BG} border ${THEME.BORDER_COLOR} rounded-lg ${THEME.TEXT_PRIMARY} placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500/50 text-sm`}
+              />
+              <p className={`${THEME.TEXT_SECONDARY} text-xs mt-1`}>
+                Auto-creates: REACT_APP_API_URL, VITE_API_URL, NEXT_PUBLIC_API_URL
+              </p>
+            </div>
+
+            {/* Custom Environment Variables */}
+            <div>
+              <label className={`block ${THEME.TEXT_SECONDARY} text-sm mb-2`}>
+                Custom Variables (one per line)
+              </label>
+              <textarea
+                value={envVariables}
+                onChange={(e) => setEnvVariables(e.target.value)}
+                placeholder={`REACT_APP_CUSTOM_KEY=value
+VITE_FIREBASE_API_KEY=your_key
+NEXT_PUBLIC_SITE_URL=https://example.com
+API_TIMEOUT=5000`}
+                rows={6}
+                className={`w-full px-4 py-3 ${THEME.ACCENT_BG} border ${THEME.BORDER_COLOR} rounded-lg ${THEME.TEXT_PRIMARY} placeholder-gray-400 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500/50 font-mono text-sm`}
+              />
+              <p className={`${THEME.TEXT_SECONDARY} text-xs mt-2`}>
+                Format: <code className="bg-gray-200 px-1 py-0.5 rounded">KEY=value</code> (one per line)
+                <br />
+                These will be available during build time in your application.
+              </p>
+            </div>
           </div>
         )}
 
