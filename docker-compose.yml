@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  # Redis for BullMQ job queue
+  redis:
+    image: redis:7-alpine
+    container_name: mern-deployer-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
   # MERN Deployer - All-in-One Container
   app:
     build:
@@ -9,26 +19,20 @@ services:
     container_name: mern-deployer
     ports:
       - "3000:3000"
+    env_file:
+      - .env.local
     environment:
       - NODE_ENV=production
-      - PORT=3000
-      # GitHub OAuth
-      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
-      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET}
-      # NextAuth Configuration
-      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-your-nextauth-secret-change-in-production}
-      # AWS Credentials
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_REGION=${AWS_REGION:-us-east-1}
-      - AWS_S3_BUCKET_NAME=${AWS_S3_BUCKET_NAME}
-      - AWS_CLOUDFRONT_DISTRIBUTION_ID=${AWS_CLOUDFRONT_DISTRIBUTION_ID}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     volumes:
       - deployment-data:/app/dist
       - temp-data:/app/temp
     restart: unless-stopped
+    depends_on:
+      - redis
 
 volumes:
   deployment-data:
   temp-data:
+  redis-data:

@@ -1,0 +1,47 @@
+services:
+  # Redis Database
+  - type: redis
+    name: mern-deployer-redis
+    plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+  # Main Application
+  - type: web
+    name: mern-deployer
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: mern-deployer-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: mern-deployer-redis
+          property: port
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+      - key: NEXTAUTH_URL
+        sync: false
+      - key: NEXTAUTH_SECRET
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: eu-north-1
+      - key: AWS_S3_BUCKET_NAME
+        sync: false
+      - key: AWS_CLOUDFRONT_DISTRIBUTION_ID
+        sync: false
